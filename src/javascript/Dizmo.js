@@ -314,7 +314,7 @@ Class("Calculator.Dizmo", {
             var self = this;
 
             // Allow the resizing of the dizmo
-            //dizmo.setAttribute('allowResize', true);
+            // dizmo.setAttribute('allowResize', true);
             dizmo.setAttribute('geometry/minHeight', 200);
             dizmo.setAttribute('geometry/minWidth', 200);
         }

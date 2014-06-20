@@ -76,14 +76,14 @@ Class("Calculator.Main", {
         dizmofyElements: function() {
             var self = this;
 
-            $('#readout').dinput({
-                theme: 'dark'
-            });
+            // $('#readout').dinput({
+            //     theme: 'dark'
+            // });
             $('#readout').addClass('no-dizmo-drag');
 
-            $('button').dbutton({
-                theme: 'dark'
-            });
+            // $('button').dbutton({
+            //     theme: 'dark'
+            // });
             $('button').addClass('no-dizmo-drag');
         },
         

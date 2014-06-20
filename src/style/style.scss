@@ -2,21 +2,12 @@
     margin: 5px;
 }
 
-#readout {
-    text-align: right;
-    width: 325px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
 
 button {
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
-#zero {
-    width: 165px;
-}
 
 .no-dizmo-drag {
     -apple-dashboard-region: dashboard-region(control rectangle);
@@ -55,4 +46,105 @@ body {
             margin-bottom: 20px;
         }
     }
+}
+
+
+/////////////////
+// Semantic.gs // for SCSS: http://sass-lang.com/
+/////////////////
+
+// Defaults which you can freely override
+// $column-width: 60px;
+// $gutter-width: 20px;
+// $columns: 12;
+$columns: 3;
+$column-width: 70px;
+$gutter-width: 10px;
+
+// Utility function — you should never need to modify this
+@function gridsystem-width($columns:$columns) {
+    @return ($column-width * $columns) + ($gutter-width * $columns);
+}
+
+// Set $total-width to 100% for a fluid layout
+$total-width: gridsystem-width($columns);
+
+// Uncomment these two lines and the star-hack width/margin lines below to enable sub-pixel fix for IE6 & 7. See http://tylertate.com/blog/2012/01/05/subpixel-rounding.html
+// $min-width: 999999;
+// $correction: 0.5 / $min-width * 100;
+
+// The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
+@mixin clearfix() {
+    *zoom:1;
+
+    &:before,
+    &:after {
+        content:"";
+        display:table;
+    }
+    &:after {
+        clear:both;
+    }
+}
+
+
+//////////
+// GRID //
+//////////
+
+body {
+    width: 100%;
+    @include clearfix();
+}
+
+@mixin row($columns:$columns) {
+    display: block;
+    width: $total-width*(($gutter-width + gridsystem-width($columns))/gridsystem-width($columns));
+    margin: 0 $total-width*((($gutter-width*.5)/gridsystem-width($columns))*-1);
+    // *width: $total-width*(($gutter-width + gridsystem-width($columns))/gridsystem-width($columns))-$correction;
+    // *margin: 0 $total-width*((($gutter-width*.5)/gridsystem-width($columns))*-1)-$correction;
+    @include clearfix();
+}
+@mixin column($x,$columns:$columns) {
+    display: inline;
+    float: left;
+    width: $total-width*(((($gutter-width+$column-width)*$x)-$gutter-width) / gridsystem-width($columns));
+    margin: 0 $total-width*(($gutter-width*.5)/gridsystem-width($columns));
+    // *width: $total-width*(((($gutter-width+$column-width)*$x)-$gutter-width) / gridsystem-width($columns))-$correction;
+    // *margin: 0 $total-width*(($gutter-width*.5)/gridsystem-width($columns))-$correction;
+}
+@mixin push($offset:1) {
+    margin-left: $total-width*((($gutter-width+$column-width)*$offset) / gridsystem-width($columns)) + $total-width*(($gutter-width*.5)/gridsystem-width($columns));
+}
+@mixin pull($offset:1) {
+    margin-right: $total-width*((($gutter-width+$column-width)*$offset) / gridsystem-width($columns)) + $total-width*(($gutter-width*.5)/gridsystem-width($columns));
+}
+
+
+
+
+//////////
+// GRID //
+//////////
+
+// Specify the number of columns and set column and gutter widths
+$columns: 4;
+$column-width: 30px;
+$gutter-width: 10px;
+
+// Uncomment the definition below for a percentage-based layout
+// $total-width: 100%;
+
+#readout {
+    @include column(4);
+}
+
+
+button {
+    @include column(1);
+    margin-bottom: 1em;
+}
+
+#zero {
+    
 }

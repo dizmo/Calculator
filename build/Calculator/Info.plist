@@ -6,12 +6,14 @@
 	<integer>0</integer>
 	<key>CloseBoxInsetY</key>
 	<integer>0</integer>
+	<key>ElementsVersion</key>
+	<string>1.0</string>
 	<key>Height</key>
 	<integer>213</integer>
 	<key>MainHTML</key>
 	<string>index.html</string>
 	<key>Width</key>
-	<integer>345</integer>
+	<integer>240</integer>
 	<key>apiVersion</key>
 	<string>1.1</string>
 	<key>bundleDisplayName</key>
@@ -21,10 +23,8 @@
 	<key>bundleName</key>
 	<string>Calculator</string>
 	<key>bundleShortVersionString</key>
-	<string>0.2</string>
+	<string>0.3</string>
 	<key>bundleVersion</key>
-	<string>0.2</string>
-	<key>hiddenDizmo</key>
-	<false/>
+	<string>0.3</string>
 </dict>
 </plist>

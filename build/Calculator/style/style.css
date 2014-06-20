@@ -1,18 +1,9 @@
 #front {
   margin: 5px; }
 
-#readout {
-  text-align: right;
-  width: 325px;
-  margin-top: 2px;
-  margin-bottom: 2px; }
-
 button {
   margin-top: 2px;
   margin-bottom: 2px; }
-
-#zero {
-  width: 165px; }
 
 .no-dizmo-drag {
   -apple-dashboard-region: dashboard-region(control rectangle); }
@@ -40,3 +31,26 @@ body {
   width: 100%; }
   #back .done-btn-wrapper .done-btn {
     margin-bottom: 20px; }
+
+body {
+  width: 100%;
+  *zoom: 1; }
+  body:before, body:after {
+    content: "";
+    display: table; }
+  body:after {
+    clear: both; }
+
+#readout {
+  display: inline;
+  float: left;
+  width: 225px;
+  margin: 0 7.5px; }
+
+button {
+  display: inline;
+  float: left;
+  width: 45px;
+  margin: 0 7.5px;
+  margin-bottom: 1em; }
+

@@ -17,43 +17,36 @@
     <script type="text/javascript" src="lib/dizmohelper/dizmo_helper.js"></script>
     <!-- End of utilities -->
 
-    <!-- Dizmo styling -->
-    <link rel="stylesheet" type="text/css" href="lib/dizmoelements/dizmo_elements.css">
-    <script type="text/javascript" src="lib/dizmoelements/dizmo_elements.js"></script>
-    <!-- End of dizmo styling -->
 
     <!-- Your own stylesheet (do not remove!)-->
     <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
     <div id="front">
-        <!--<div class="center">
-            <p>Hello World</p>
-        </div>-->
-        <input id="readout" type="text" readonly>
-        <button id="clear">C</button>
-        <button id="clearAll">CA</button>
-        <button id="sign">+/-</button>
-        <button id="divide" class="operator">%</button>
-        <button id="7" class="digit" value="7">7</button>
-        <button id="8" class="digit" value="8">8</button>
-        <button id="9" class="digit" value="9">9</button>
-        <button id="multiply" class="operator">x</button>
-        <button id="4" class="digit" value="4">4</button>
-        <button id="5" class="digit" value="5">5</button>
-        <button id="6" class="digit" value="6">6</button>
-        <button id="subtract" class="operator">-</button>
-        <button id="1" class="digit" value="1">1</button>
-        <button id="2" class="digit" value="2">2</button>
-        <button id="3" class="digit" value="3">3</button>
-        <button id="add" class="operator">+</button>
-        <button id="zero" class="digit" value="0">0</button>
-        <button id="point" class="digit" value=".">.</button>
-        <button id="equals" class="operator">=</button>
+        <input id="readout" type="text" readonly data-type="dizmo-input">
+        <button id="clear" data-type="dizmo-button" style="margin-left: 10px">C</button>
+        <button id="clearAll" data-type="dizmo-button" style="margin-left: 10px">CA</button>
+        <button id="sign" data-type="dizmo-button" style="margin-left: 10px">+/-</button>
+        <button id="divide" class="operator" data-type="dizmo-button" style="margin-left: 10px">%</button>
+        <button id="7" class="digit" value="7" data-type="dizmo-button" style="margin-left: 10px">7</button>
+        <button id="8" class="digit" value="8" data-type="dizmo-button" style="margin-left: 10px">8</button>
+        <button id="9" class="digit" value="9" data-type="dizmo-button" style="margin-left: 10px">9</button>
+        <button id="multiply" class="operator" data-type="dizmo-button" style="margin-left: 10px">x</button>
+        <button id="4" class="digit" value="4" data-type="dizmo-button" style="margin-left: 10px">4</button>
+        <button id="5" class="digit" value="5" data-type="dizmo-button" style="margin-left: 10px">5</button>
+        <button id="6" class="digit" value="6" data-type="dizmo-button" style="margin-left: 10px">6</button>
+        <button id="subtract" class="operator" data-type="dizmo-button" style="margin-left: 10px">-</button>
+        <button id="1" class="digit" value="1" data-type="dizmo-button" style="margin-left: 10px">1</button>
+        <button id="2" class="digit" value="2" data-type="dizmo-button" style="margin-left: 10px">2</button>
+        <button id="3" class="digit" value="3" data-type="dizmo-button" style="margin-left: 10px">3</button>
+        <button id="add" class="operator" data-type="dizmo-button" style="margin-left: 10px">+</button>
+        <button id="zero" class="digit" value="0" data-type="dizmo-button" style="margin-left: 10px">0</button>
+        <button id="point" class="digit" value="." data-type="dizmo-button" style="margin-left: 10px">.</button>
+        <button id="equals" class="operator" data-type="dizmo-button" style="margin-left: 10px">=</button> 
     </div>
     <div id="back">
         <div class="done-btn-wrapper">
-            <button class="done-btn">Done</button>
+            <button class="done-btn" data-type="dizmo-button">Done</button>
         </div>
     </div>
 
