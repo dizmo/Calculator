@@ -5,8 +5,7 @@
 
 button {
     margin-top: 2px;
-    margin-bottom: 2px;
-}
+ }
 
 
 .no-dizmo-drag {
@@ -136,13 +135,14 @@ $gutter-width: 10px;
 // $total-width: 100%;
 
 #readout {
-    @include column(4);
+    width: 200px;
+    margin-left:10px;
 }
 
 
 button {
     @include column(1);
-    margin-bottom: 1em;
+
 }
 
 #zero {

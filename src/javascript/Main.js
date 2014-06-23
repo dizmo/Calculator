@@ -53,6 +53,9 @@ Class("Calculator.Main", {
         initEvents: function() {
             var self = this;
 
+               $('.operator').css('background-color','#3c3c3c');
+                $('.operator').css('color','white');
+
             $('.done-btn').click( function() {
                 Calculator.Dizmo.showFront();
             });
