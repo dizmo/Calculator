@@ -53,10 +53,10 @@ Class("Calculator.Main", {
         initEvents: function() {
             var self = this;
 
-               $('.operator').css('background-color','#3c3c3c');
-                $('.operator').css('color','white');
+            $('.operator').css('background-color', '#3c3c3c');
+            $('.operator').css('color', 'white');
 
-            $('.done-btn').click( function() {
+            $('.done-btn').click(function() {
                 Calculator.Dizmo.showFront();
             });
             $('#clear').click(function() {
@@ -75,7 +75,7 @@ Class("Calculator.Main", {
                 self.doUnaryMinus();
             });
         },
-        
+
         dizmofyElements: function() {
             var self = this;
 
@@ -89,25 +89,25 @@ Class("Calculator.Main", {
             // });
             $('button').addClass('no-dizmo-drag');
         },
-        
+
         highlightOpBackground: function() {
             var self = this;
-            $('.operator').css('background-color','#3c3c3c');
-            $('.operator').css('color','white');
+            $('.operator').css('background-color', '#3c3c3c');
+            $('.operator').css('color', 'white');
             if (self.operation != 'equals') {
-                $('#' + self.operation).css('background-color','#8ea318');
+                $('#' + self.operation).css('background-color', '#8ea318');
             }
         },
 
         highlightOp: function() {
             var self = this;
-            $('.operator').css('background-color','#3c3c3c');
-            $('.operator').css('color','white');
+            $('.operator').css('background-color', '#3c3c3c');
+            $('.operator').css('color', 'white');
             if (self.operation != 'equals') {
-                $('#' + self.operation).css('color','#8ea318');
+                $('#' + self.operation).css('color', '#8ea318');
             }
         },
-        
+
         clear: function() {
             var self = this;
             self.x = 0;
@@ -126,9 +126,9 @@ Class("Calculator.Main", {
 
         enterDigit: function($sender) {
             var self = this;
-            
+
             self.highlightOp();
-            
+
             self.opFlag = false;
             if (self.enterFlag) {
                 self.y = self.x;
@@ -195,6 +195,32 @@ Class("Calculator.Main", {
             self.displayX();
         },
 
+        checkSize: function() {
+            var self = this;
+            var x = jQuery('#readout').width();
+            var currentSize = parseInt($('#readout').css('font-size'));
+
+            if (x > 210 || x < 180) {
+                while (x > 210 && currentSize > 8) {
+                    currentSize = parseFloat(currentSize) * 0.9;
+                    $('#readout').css('font-size', currentSize);
+                    x = jQuery("#readout").width();
+                }
+
+                while (x < 180 && currentSize < 80) {
+                    currentSize = parseFloat(currentSize) * 1.1;
+                    $('#readout').css('font-size', currentSize);
+                    x = jQuery("#readout").width();
+                }
+
+
+
+            }
+
+
+
+        },
+
         cleanX: function() {
             var self = this;
             self.x = self.x.toFixed(10);
@@ -206,11 +232,14 @@ Class("Calculator.Main", {
 
         displayX: function() {
             var self = this;
-            $('#readout').val(self.x);
+            $('#readout').html(self.x);
             if (self.x == 'NaN' || self.x == 'Infinity') {
                 self.x = 0;
             }
+
+            self.checkSize();
         },
+
 
         doUnaryMinus: function() {
             var self = this;
@@ -218,6 +247,6 @@ Class("Calculator.Main", {
             self.x = -self.x;
             self.displayX();
         }
-        
+
     }
 });

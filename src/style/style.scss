@@ -134,14 +134,29 @@ $gutter-width: 10px;
 // Uncomment the definition below for a percentage-based layout
 // $total-width: 100%;
 
-#readout {
-    width: 200px;
+
+#display {
+   width: 210px;
+    height: 110px;
     margin-left:10px;
+    text-align: right;
+    display: block;
+    position: relative;
 }
+#readout {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-size: 80px;
+
+    color: #3c3c3c;
+    }
 
 
 button {
     @include column(1);
+    padding-left: auto !important;
+    padding-right: auto !important;
 
 }
 
