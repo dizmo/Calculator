@@ -54,7 +54,7 @@ Class("Calculator.Main", {
             var self = this;
 
             $('.operator').css('background-color', '#3c3c3c');
-            $('.operator').css('color', 'white');
+            $('.operator').css('color', '#DFDFDF');
 
             $('.done-btn').click(function() {
                 Calculator.Dizmo.showFront();
@@ -93,7 +93,7 @@ Class("Calculator.Main", {
         highlightOpBackground: function() {
             var self = this;
             $('.operator').css('background-color', '#3c3c3c');
-            $('.operator').css('color', 'white');
+            $('.operator').css('color', '#DFDFDF');
             if (self.operation != 'equals') {
                 $('#' + self.operation).css('background-color', '#8ea318');
             }
@@ -102,7 +102,7 @@ Class("Calculator.Main", {
         highlightOp: function() {
             var self = this;
             $('.operator').css('background-color', '#3c3c3c');
-            $('.operator').css('color', 'white');
+            $('.operator').css('color', '#DFDFDF');
             if (self.operation != 'equals') {
                 $('#' + self.operation).css('color', '#8ea318');
             }
