@@ -60,20 +60,20 @@ body {
 /////////////////
 
 // Defaults which you can freely override
-// $column-width: 60px;
-// $gutter-width: 20px;
+// $columnWidth: 60px;
+// $gutterWidth: 20px;
 // $columns: 12;
 $columns: 3;
-$column-width: 70px;
-$gutter-width: 10px;
+$columnWidth: 70px;
+$gutterWidth: 10px;
 
 // Utility function — you should never need to modify this
-@function gridsystem-width($columns:$columns) {
-    @return ($column-width * $columns) + ($gutter-width * $columns);
+@function gridSystemWidth($columns:$columns) {
+    @return ($columnWidth * $columns) + ($gutterWidth * $columns);
 }
 
-// Set $total-width to 100% for a fluid layout
-$total-width: gridsystem-width($columns);
+// Set $totalWidth to 100% for a fluid layout
+$totalWidth: gridSystemWidth($columns);
 
 // Uncomment these two lines and the star-hack width/margin lines below to enable sub-pixel fix for IE6 & 7. See http://tylertate.com/blog/2012/01/05/subpixel-rounding.html
 // $min-width: 999999;
@@ -105,25 +105,25 @@ body {
 
 @mixin row($columns:$columns) {
     display: block;
-    width: $total-width*(($gutter-width + gridsystem-width($columns))/gridsystem-width($columns));
-    margin: 0 $total-width*((($gutter-width*.5)/gridsystem-width($columns))*-1);
-    // *width: $total-width*(($gutter-width + gridsystem-width($columns))/gridsystem-width($columns))-$correction;
-    // *margin: 0 $total-width*((($gutter-width*.5)/gridsystem-width($columns))*-1)-$correction;
+    width: $totalWidth * (($gutterWidth + gridSystemWidth($columns)) / gridSystemWidth($columns));
+    margin: 0 $totalWidth * ((($gutterWidth * 0.5)/gridSystemWidth($columns)) * -1);
+    // *width: $totalWidth*(($gutterWidth + gridSystemWidth($columns))/gridSystemWidth($columns))-$correction;
+    // *margin: 0 $totalWidth*((($gutterWidth*.5)/gridSystemWidth($columns))*-1)-$correction;
     @include clearfix();
 }
 @mixin column($x,$columns:$columns) {
     display: inline;
     float: left;
-    width: $total-width*(((($gutter-width+$column-width)*$x)-$gutter-width) / gridsystem-width($columns));
-    margin: 0 $total-width*(($gutter-width*.5)/gridsystem-width($columns));
-    // *width: $total-width*(((($gutter-width+$column-width)*$x)-$gutter-width) / gridsystem-width($columns))-$correction;
-    // *margin: 0 $total-width*(($gutter-width*.5)/gridsystem-width($columns))-$correction;
+    width: $totalWidth * (((($gutterWidth + $columnWidth) * $x) - $gutterWidth) / gridSystemWidth($columns));
+    margin: 0 $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
+    // *width: $totalWidth*(((($gutterWidth+$columnWidth)*$x)-$gutterWidth) / gridSystemWidth($columns))-$correction;
+    // *margin: 0 $totalWidth*(($gutterWidth*.5)/gridSystemWidth($columns))-$correction;
 }
 @mixin push($offset:1) {
-    margin-left: $total-width*((($gutter-width+$column-width)*$offset) / gridsystem-width($columns)) + $total-width*(($gutter-width*.5)/gridsystem-width($columns));
+    margin-left: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5) / gridSystemWidth($columns));
 }
 @mixin pull($offset:1) {
-    margin-right: $total-width*((($gutter-width+$column-width)*$offset) / gridsystem-width($columns)) + $total-width*(($gutter-width*.5)/gridsystem-width($columns));
+    margin-right: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
 }
 
 
@@ -135,11 +135,11 @@ body {
 
 // Specify the number of columns and set column and gutter widths
 $columns: 4;
-$column-width: 30px;
-$gutter-width: 10px;
+$columnWidth: 30px;
+$gutterWidth: 10px;
 
 // Uncomment the definition below for a percentage-based layout
-// $total-width: 100%;
+// $totalWidth: 100%;
 
 
 #display {
@@ -168,5 +168,5 @@ button {
 }
 
 #zero {
-    
+
 }
