@@ -226,10 +226,6 @@ Class("Calculator.Dizmo", {
         initialize: function() {
             var self = this;
 
-            DizmoHelper.DockingManager.init({
-                directional: false
-            });
-
             // Show front and hide back on first load
             jQuery("#back").hide();
             jQuery("#front").show();
@@ -284,21 +280,20 @@ Class("Calculator.Dizmo", {
             // Registering the canDock event with the DockingManager. By default it is provided
             // a false, meaning the dizmo can not be docked. Refer to the DockingManager documentation
             // for more insight on the possible values.
-            DizmoHelper.DockingManager.canDock(true);
+            dizmo.canDock(true);
 
             // Registering the onDock event with the DockingManager. Refer to the DockingManager documentation
             // for more insight.
-            DizmoHelper.DockingManager.onDock(function(dockedDizmo, side) {
+            dizmo.onDock(function(dockedDizmo) {
                 // Write code here that should happen when a dizmo has been docked.
                 // The line below is a small example on how to relay the event to other
                 // classes.
-                var allDockedDizmos = DizmoHelper.DockingManager.getDockedDizmos();
                 jQuery(events).trigger('dizmo.docked');
             });
 
             // Registering the onUndock event with the DockingManager. Refer to the DockingManager documentation
             // for more insight.
-            DizmoHelper.DockingManager.onUndock(function(undockedDizmo) {
+            dizmo.onUndock(function(undockedDizmo) {
                 // Write code here that should happen when a dizmo has been un-docked.
                 // The line below is a small example on how to relay the event to other
                 // classes.
