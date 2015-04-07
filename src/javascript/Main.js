@@ -74,6 +74,10 @@ Class("Calculator.Main", {
             $('#sign').click(function() {
                 self.doUnaryMinus();
             });
+
+            $('#readout').on('change', function() {
+                console.log($('#readout').val());
+            });
         },
 
         dizmofyElements: function() {
@@ -235,8 +239,8 @@ Class("Calculator.Main", {
             $('#readout').html(self.x);
             if (self.x == 'NaN' || self.x == 'Infinity') {
                 self.x = 0;
-            }
-
+            } 
+            Calculator.Dizmo.publish(self.x);
             self.checkSize();
         },
 
