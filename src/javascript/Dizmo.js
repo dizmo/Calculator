@@ -110,7 +110,6 @@ Class("Calculator.Dizmo", {
                     console.log('To delete a value, please use the respecitve function.');
                     return null;
                 } else {
-                    console.log('Please provide a value to save to ' + path + '.');
                     return null;
                 }
 
@@ -204,7 +203,7 @@ Class("Calculator.Dizmo", {
 
                 var id = null;
                 id = dizmo.privateStorage().subscribeTo(path, function(path, val, oldVal) {
-                    var val = self.load(path);
+                    val = self.load(path);
 
                     callback.call(self, val);
                 });
