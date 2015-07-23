@@ -1,28 +1,21 @@
-# (Display Name of the dizmo)
+# Calculator
 
 **Table of contents**
 
-1. Summary
+1. Screenshots
 2. Description
-3. Examples
-4. Additional Information
+3. Additional information
 
-## Summary
+## Screenshots
 
- (A short summary of the purpose of the dizmo)
- 
+![Calculator dizmo](/assets/Preview.png)
+
 ## Description
 
-(A more in depth description of what can be done with the dizmo and how it should be used. This may include images as well)  
-![The dizmo Icon](./Icon.png =32x32)
+A classic calculator
 
-## Examples
+## Information
 
-(Some examples explaining how the dizmo could be used)
-
-## Additional Information
-
-* Developer: (Developers Name)
-* Publisher: (Publisher's Name, remove if same as Developer)
-* Contact: (Who to contact for additional information or support)
-* Website: (URL of the dizmo providing additional information)
+Developer: dizmo AG
+Contact: support@dizmo.com
+Website: [www.dizmo.com](/)
