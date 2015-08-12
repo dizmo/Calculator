@@ -12,9 +12,9 @@
 
 ## Description
 
-A classic calculator
+A classic calculator.
 
-## Information
+## Additional information
 
 Developer: dizmo AG
 Contact: support@dizmo.com
