@@ -8,7 +8,7 @@
 
 ## Screenshots
 
-![Calculator dizmo](/assets/Preview.png)
+![Calculator dizmo](/help/en/Calculator.jpg)
 
 ## Description
 
