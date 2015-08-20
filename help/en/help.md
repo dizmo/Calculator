@@ -15,10 +15,9 @@
 
 A classic calculator.
 
-### V0.14
+### What is new in V0.14
 * Add help.
-* Fixed color value #e5e5e5.
-* Add upload info.
+* Bugfixes.
 
 ### V0.1
 Build classic calculator.
