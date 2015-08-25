@@ -21,6 +21,15 @@ Class("Calculator.Dizmo", {
                 } else {
                     dizmo.privateStorage.setProperty(path, value);
                 }
+            },
+
+            publish: function (path, value) {
+                if (typeof value === 'undefined') {
+                    value = path;
+                    path = 'stdout';
+                }
+
+                dizmo.publicStorage.setProperty(path, value);
             }
         }
     },

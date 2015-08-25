@@ -177,9 +177,10 @@ Class('Calculator.Main', {
 
         displayX: function () {
             jQuery('#readout').html(this.x);
-            if (this.x === 'NaN' || this.x === 'Infinity') {
-                this.x = 0;
-            }
+            this.dizmo.my.publish(this.x);
+
+            if (this.x === 'NaN') this.x = 0;
+            if (this.x === 'Infinity') this.x = 0;
             this.checkSize();
         },
 
