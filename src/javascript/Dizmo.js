@@ -33,8 +33,8 @@ Class("Calculator.Dizmo", {
 
     methods: {
         initEvents: function () {
-            viewer.subscribeToAttribute('displayMode', function (path, value) {
-                dizmo.setAttribute('hideframe', value === 'presentation');
+            viewer.subscribeToAttribute('settings/displaymode', function (path, value) {
+                dizmo.setAttribute('state/framehidden', value === 'presentation');
             });
 
             dizmo.onDock(function (other) {

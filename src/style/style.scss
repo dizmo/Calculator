@@ -9,6 +9,11 @@ html, body {
   width: 100%;
 }
 
+body {
+  clear: both;
+  display: table;
+}
+
 #front {
   margin: 5px;
   width: 100%;
@@ -49,66 +54,31 @@ html, body {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-$columns: 3;
-$columnWidth: 70px;
-$gutterWidth: 10px;
+$cols: 3;
+$colW: 70px;
+$gutW: 10px;
 
-@function gridSystemWidth($columns: $columns) {
-  @return ($columnWidth * $columns) + ($gutterWidth * $columns);
+@function gsw($cols: $cols) {
+  @return ($colW * $cols) + ($gutW * $cols);
 }
 
-$totalWidth: gridSystemWidth($columns);
+$totW: gsw($cols);
 
-@mixin clearfix() {
-  *zoom: 1;
-  &:before, &:after {
-    content: "";
-    display: table;
-  }
-  &:after {
-    clear: both;
-  }
-}
-
-body {
-  width: 100%;
-  @include clearfix();
-}
-
-@mixin row($columns: $columns) {
-  display: block;
-  margin: 0 $totalWidth * ((($gutterWidth * 0.5)/gridSystemWidth($columns)) * -1);
-  width: $totalWidth * (($gutterWidth + gridSystemWidth($columns)) / gridSystemWidth($columns));
-  @include clearfix();
-}
-
-@mixin column($x, $columns: $columns) {
+@mixin col($x, $cols: $cols) {
   display: inline;
   float: left;
-  margin: 0 $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
-  width: $totalWidth * (((($gutterWidth + $columnWidth) * $x) - $gutterWidth) / gridSystemWidth($columns));
+  margin: 0 $totW * (($gutW * 0.5)/gsw($cols));
+  width: $totW * (((($gutW + $colW) * $x) - $gutW) / gsw($cols));
 }
 
-@mixin push($offset: 1) {
-  margin-left: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5) / gridSystemWidth($columns));
-}
-
-@mixin pull($offset: 1) {
-  margin-right: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
-}
-
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-$columns: 4;
-$columnWidth: 30px;
-$gutterWidth: 10px;
-
+$cols: 4;
+$colW: 30px;
+$gutW: 10px;
 
 button {
-  @include column(1);
-  padding-left: auto !important;
-  padding-right: auto !important;
+  @include col(1);
+  padding-left: auto;
+  padding-right: auto;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
