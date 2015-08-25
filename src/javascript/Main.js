@@ -1,256 +1,192 @@
 //= require Dizmo
 
-Class("Calculator.Main", {
+Class('Calculator.Main', {
+
     has: {
-        // This will be your wrapper around the dizmo API. It is instantiated
-        // before the the initialize function (defined below) is called and can
-        // therefor already be used there.
         dizmo: {
-            is: 'ro',
-            init: function() {
+            is: 'ro', init: function () {
                 return new Calculator.Dizmo();
             }
         },
         x: {
-            is: 'rw',
-            init: 0
+            is: 'rw', init: 0
         },
         y: {
-            is: 'rw',
-            init: 0
+            is: 'rw', init: 0
         },
         yFlag: {
-            is: 'rw',
-            init: false
+            is: 'rw', init: false
         },
         enterFlag: {
-            is: 'rw',
-            init: false
+            is: 'rw', init: false
         },
         opFlag: {
-            is: 'rw',
-            init: false
+            is: 'rw', init: false
         },
         operation: {
-            is: 'rw',
-            init: null
+            is: 'rw', init: null
         }
     },
 
     after: {
-        initialize: function() {
-            var self = this;
-
-            self.initEvents();
-            self.dizmofyElements();
-
-            self.displayX();
-            Calculator.Dizmo.publish(self.x);
+        initialize: function () {
+            this.initEvents();
+            this.displayX();
         }
     },
 
     methods: {
-        initEvents: function() {
-            var self = this;
+        initEvents: function () {
+            var $operator = jQuery('.operator');
+            $operator.css('background-color', '#3c3c3c');
+            $operator.css('color', '#dfdfdf');
+            $operator.click(function (ev) {
+                this.enterOp(jQuery(ev.target));
+            }.bind(this));
 
-            $('.operator').css('background-color', '#3c3c3c');
-            $('.operator').css('color', '#DFDFDF');
-
-            $('.done-btn').click(function() {
-                Calculator.Dizmo.showFront();
-            });
-            $('#clear').click(function() {
-                self.clear();
-            });
-            $('#clearAll').click(function() {
-                self.clearAll();
-            });
-            $('.operator').click(function() {
-                self.enterOp($(this));
-            });
-            $('.digit').click(function() {
-                self.enterDigit($(this));
-            });
-            $('#sign').click(function() {
-                self.doUnaryMinus();
-            });
-
-            $('#readout').on('change', function() {
-                console.log($('#readout').val());
-            });
+            jQuery('.digit').click(function (ev) {
+                this.enterDigit(jQuery(ev.target));
+            }.bind(this));
+            jQuery('#sign').click(function () {
+                this.doUnaryMinus();
+            }.bind(this));
+            jQuery('#clear').click(function () {
+                this.clear();
+            }.bind(this));
+            jQuery('#clear-all').click(function () {
+                this.clearAll();
+            }.bind(this));
         },
 
-        dizmofyElements: function() {
-            var self = this;
+        highlightOp: function (style) {
+            var $op = jQuery('.operator');
+            $op.css('background-color', '#3c3c3c');
+            $op.css('color', '#dfdfdf');
 
-            // $('#readout').dinput({
-            //     theme: 'dark'
-            // });
-            $('#readout').addClass('no-dizmo-drag');
-
-            // $('button').dbutton({
-            //     theme: 'dark'
-            // });
-            $('button').addClass('no-dizmo-drag');
-        },
-
-        highlightOpBackground: function() {
-            var self = this;
-            $('.operator').css('background-color', '#3c3c3c');
-            $('.operator').css('color', '#DFDFDF');
-            if (self.operation != 'equals') {
-                $('#' + self.operation).css('background-color', '#8ea318');
+            if (this.operation !== 'equals') {
+                jQuery('#' + this.operation).css(style||'color', '#8ea318');
             }
         },
 
-        highlightOp: function() {
-            var self = this;
-            $('.operator').css('background-color', '#3c3c3c');
-            $('.operator').css('color', '#DFDFDF');
-            if (self.operation != 'equals') {
-                $('#' + self.operation).css('color', '#8ea318');
-            }
+        clear: function () {
+            this.x = 0;
+            this.displayX();
         },
 
-        clear: function() {
-            var self = this;
-            self.x = 0;
-            self.displayX();
+        clearAll: function () {
+            this.x = 0;
+            this.y = 0;
+            this.yFlag = false;
+            this.enterFlag = false;
+            this.opFlag = false;
+            this.displayX();
         },
 
-        clearAll: function() {
-            var self = this;
-            self.x = 0;
-            self.y = 0;
-            self.yFlag = false;
-            self.enterFlag = false;
-            self.opFlag = false;
-            self.displayX();
-        },
+        enterDigit: function ($sender) {
+            this.highlightOp();
+            this.opFlag = false;
 
-        enterDigit: function($sender) {
-            var self = this;
-
-            self.highlightOp();
-
-            self.opFlag = false;
-            if (self.enterFlag) {
-                self.y = self.x;
-                self.x = 0;
-                self.enterFlag = false;
+            if (this.enterFlag) {
+                this.y = this.x;
+                this.x = 0;
+                this.enterFlag = false;
             }
 
-            if (self.x.toString() != '0.' && self.x == 0) self.x = '';
+            if (this.x.toString() !== '0.' && this.x === 0) {
+                this.x = '';
+            }
 
             var digit;
-            if ($sender.attr('id') == 'point') {
-                if ((self.x && !self.x.match(/\./)) || !self.x) digit = '.';
+            if ($sender.attr('id') === 'point') {
+                if (this.x && !this.x.match(/\./) || !this.x) {
+                    digit = '.';
+                }
             } else {
                 digit = $sender.val();
             }
 
-            if (digit) self.x = self.x + digit;
+            if (digit) this.x = this.x + digit;
+            if (this.x === '.') this.x = '0.';
 
-            if (self.x == '.') self.x = '0.';
-
-            self.displayX();
+            this.displayX();
         },
 
-        enterOp: function($sender) {
-            var self = this;
-            if (self.opFlag) {
-                self.operation = $sender.attr('id');
-                self.highlightOpBackground();
-                return;
-            }
-            self.opFlag = true;
-            self.x = parseFloat(self.x);
-            self.y = parseFloat(self.y);
-            if (self.yFlag) {
-                switch (self.operation) {
+        enterOp: function ($sender) {
+            if (this.opFlag) {
+                this.operation = $sender.attr('id');
+                this.highlightOp('background-color');
+            } else {
+                this.opFlag = true;
+                this.x = parseFloat(this.x);
+                this.y = parseFloat(this.y);
+
+                if (this.yFlag) switch (this.operation) {
                     case 'add':
-                        self.x = self.y + self.x;
+                        this.x = this.y + this.x;
                         break;
                     case 'subtract':
-                        self.x = self.y - self.x;
+                        this.x = this.y - this.x;
                         break;
                     case 'multiply':
-                        self.x = self.y * self.x;
+                        this.x = this.y * this.x;
                         break;
                     case 'divide':
-                        self.x = self.y / self.x;
+                        this.x = this.y / this.x;
                         break;
                 }
+
+                this.y = this.x;
+                this.yFlag = true;
+
+                this.operation = $sender.attr('id');
+                this.highlightOp('background-color');
+                this.enterFlag = true;
+
+                this.cleanX();
+                this.displayX();
             }
-
-            self.y = self.x;
-            self.yFlag = true;
-
-            self.operation = $sender.attr('id');
-            self.highlightOpBackground();
-            self.enterFlag = true;
-
-            self.cleanX()
-
-            if (self.operation == 'equals') {
-                Calculator.Dizmo.publish(self.x);
-            }
-
-            self.displayX();
         },
 
-        checkSize: function() {
-            var self = this;
-            var x = jQuery('#readout').width();
-            var currentSize = parseInt($('#readout').css('font-size'));
-
-            if (x > 210 || x < 180) {
-                while (x > 210 && currentSize > 8) {
-                    currentSize = parseFloat(currentSize) * 0.9;
-                    $('#readout').css('font-size', currentSize);
-                    x = jQuery("#readout").width();
+        checkSize: function () {
+            var $readout = jQuery('#readout');
+            var size = parseInt($readout.css('font-size')),
+                width = $readout.width();
+            if (width > 210 || width < 180) {
+                while (width > 210 && size > 8) {
+                    size = parseFloat(size) * 0.9;
+                    $readout.css('font-size', size);
+                    width = $readout.width();
                 }
-
-                while (x < 180 && currentSize < 80) {
-                    currentSize = parseFloat(currentSize) * 1.1;
-                    $('#readout').css('font-size', currentSize);
-                    x = jQuery("#readout").width();
+                while (width < 180 && size < 80) {
+                    size = parseFloat(size) * 1.1;
+                    $readout.css('font-size', size);
+                    width = $readout.width();
                 }
-
-
-
             }
-
-
-
         },
 
-        cleanX: function() {
-            var self = this;
-            self.x = self.x.toFixed(10);
-            while (self.x.match(/\..*0$/)) {
-                self.x = self.x.replace(/0$/, '');
+        cleanX: function () {
+            this.x = this.x.toFixed(10);
+            while (this.x.match(/\..*0$/)) {
+                this.x = this.x.replace(/0$/, '');
             }
-            if (self.x.match(/\.$/)) self.x = self.x.replace(/\.$/, '');
+            if (this.x.match(/\.$/)) {
+                this.x = this.x.replace(/\.$/, '');
+            }
         },
 
-        displayX: function() {
-            var self = this;
-            $('#readout').html(self.x);
-            if (self.x == 'NaN' || self.x == 'Infinity') {
-                self.x = 0;
-            } 
-            Calculator.Dizmo.publish(self.x);
-            self.checkSize();
+        displayX: function () {
+            jQuery('#readout').html(this.x);
+            if (this.x === 'NaN' || this.x === 'Infinity') {
+                this.x = 0;
+            }
+            this.checkSize();
         },
 
-
-        doUnaryMinus: function() {
-            var self = this;
-            if (self.x == 0) return;
-            self.x = -self.x;
-            self.displayX();
+        doUnaryMinus: function () {
+            if (this.x === 0) return;
+            this.x = -this.x;
+            this.displayX();
         }
-
     }
 });

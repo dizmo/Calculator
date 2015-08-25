@@ -1,172 +1,115 @@
-#front {
-    margin: 5px;
-}
-
-
-button {
-  margin-top: 10px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
- }
-
-
 .no-dizmo-drag {
-    -apple-dashboard-region: dashboard-region(control rectangle);
+  -webkit-dashboard-region: dashboard-region(control rectangle);
 }
 
-body {
-    margin: 0px;
-    padding: 0px;
-}
-#sign {
-    background-image: url(images/-+_icon.svg);
-    background-position-y: -5px;
-    background-position-x: 2px;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 #front {
-    width: 100%;
-
-    .center {
-        margin-left: auto;
-        margin-right: auto;
-        width: 112px;
-        margin-top: 50px;
-
-        p {
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-        }
+  margin: 5px;
+  width: 100%;
+  #display {
+    display: block;
+    height: 110px;
+    margin-left: 10px;
+    position: relative;
+    text-align: right;
+    width: 225px;
+    #readout {
+      bottom: 0px;
+      color: #3c3c3c;
+      font-size: 80px;
+      position: absolute;
+      right: 0px;
     }
+  }
+  button {
+    line-height: 26px;
+    margin-top: 10px ;
+    padding-left: 0 ;
+    padding-right: 0 ;
+  }
+  button#clear, button#sign, button#clear-all {
+    background-color: #3c3c3c;
+    color: #dfdfdf;
+  }
+  button#sign {
+    background-position-x: 2px;
+    background-position-y: -5px;
+  }
+  button#zero {
+    width: 105px;
+  }
 }
 
-#back {
-    .done-btn-wrapper {
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        width: 100%;
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
-        .done-btn {
-            margin-bottom: 20px;
-        }
-    }
-}
-
-
-/////////////////
-// Semantic.gs // for SCSS: http://sass-lang.com/
-/////////////////
-
-// Defaults which you can freely override
-// $columnWidth: 60px;
-// $gutterWidth: 20px;
-// $columns: 12;
 $columns: 3;
 $columnWidth: 70px;
 $gutterWidth: 10px;
 
-// Utility function — you should never need to modify this
-@function gridSystemWidth($columns:$columns) {
-    @return ($columnWidth * $columns) + ($gutterWidth * $columns);
+@function gridSystemWidth($columns: $columns) {
+  @return ($columnWidth * $columns) + ($gutterWidth * $columns);
 }
 
-// Set $totalWidth to 100% for a fluid layout
 $totalWidth: gridSystemWidth($columns);
 
-// Uncomment these two lines and the star-hack width/margin lines below to enable sub-pixel fix for IE6 & 7. See http://tylertate.com/blog/2012/01/05/subpixel-rounding.html
-// $min-width: 999999;
-// $correction: 0.5 / $min-width * 100;
-
-// The micro clearfix http://nicolasgallagher.com/micro-clearfix-hack/
 @mixin clearfix() {
-    *zoom:1;
-
-    &:before,
-    &:after {
-        content:"";
-        display:table;
-    }
-    &:after {
-        clear:both;
-    }
+  *zoom: 1;
+  &:before, &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
 }
-
-
-//////////
-// GRID //
-//////////
 
 body {
-    width: 100%;
-    @include clearfix();
+  width: 100%;
+  @include clearfix();
 }
 
-@mixin row($columns:$columns) {
-    display: block;
-    width: $totalWidth * (($gutterWidth + gridSystemWidth($columns)) / gridSystemWidth($columns));
-    margin: 0 $totalWidth * ((($gutterWidth * 0.5)/gridSystemWidth($columns)) * -1);
-    // *width: $totalWidth*(($gutterWidth + gridSystemWidth($columns))/gridSystemWidth($columns))-$correction;
-    // *margin: 0 $totalWidth*((($gutterWidth*.5)/gridSystemWidth($columns))*-1)-$correction;
-    @include clearfix();
-}
-@mixin column($x,$columns:$columns) {
-    display: inline;
-    float: left;
-    width: $totalWidth * (((($gutterWidth + $columnWidth) * $x) - $gutterWidth) / gridSystemWidth($columns));
-    margin: 0 $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
-    // *width: $totalWidth*(((($gutterWidth+$columnWidth)*$x)-$gutterWidth) / gridSystemWidth($columns))-$correction;
-    // *margin: 0 $totalWidth*(($gutterWidth*.5)/gridSystemWidth($columns))-$correction;
-}
-@mixin push($offset:1) {
-    margin-left: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5) / gridSystemWidth($columns));
-}
-@mixin pull($offset:1) {
-    margin-right: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
+@mixin row($columns: $columns) {
+  display: block;
+  margin: 0 $totalWidth * ((($gutterWidth * 0.5)/gridSystemWidth($columns)) * -1);
+  width: $totalWidth * (($gutterWidth + gridSystemWidth($columns)) / gridSystemWidth($columns));
+  @include clearfix();
 }
 
+@mixin column($x, $columns: $columns) {
+  display: inline;
+  float: left;
+  margin: 0 $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
+  width: $totalWidth * (((($gutterWidth + $columnWidth) * $x) - $gutterWidth) / gridSystemWidth($columns));
+}
 
+@mixin push($offset: 1) {
+  margin-left: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5) / gridSystemWidth($columns));
+}
 
+@mixin pull($offset: 1) {
+  margin-right: $totalWidth * ((($gutterWidth + $columnWidth) * $offset) / gridSystemWidth($columns)) + $totalWidth * (($gutterWidth * 0.5)/gridSystemWidth($columns));
+}
 
-//////////
-// GRID //
-//////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
-// Specify the number of columns and set column and gutter widths
 $columns: 4;
 $columnWidth: 30px;
 $gutterWidth: 10px;
 
-// Uncomment the definition below for a percentage-based layout
-// $totalWidth: 100%;
-
-
-#display {
-   width: 225px;
-    height: 110px;
-    margin-left:10px;
-    text-align: right;
-    display: block;
-    position: relative;
-}
-#readout {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    font-size: 80px;
-
-    color: #3c3c3c;
-    }
-
 
 button {
-    @include column(1);
-    padding-left: auto !important;
-    padding-right: auto !important;
-
+  @include column(1);
+  padding-left: auto !important;
+  padding-right: auto !important;
 }
 
-#zero {
-
-}
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
