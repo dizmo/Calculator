@@ -46,12 +46,6 @@ Class("Calculator.Dizmo", {
                 dizmo.setAttribute('state/framehidden', value === 'presentation');
             });
 
-            dizmo.onDock(function (other) {
-            });
-
-            dizmo.onUndock(function (other) {
-            });
-
             dizmo.canDock(true);
         }
     }
