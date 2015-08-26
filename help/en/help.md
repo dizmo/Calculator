@@ -27,6 +27,7 @@ Build classic calculator.
 Dock the Calculator dizmo with
 
 * Converter
+* Sticky Notes
 * Value Range
 
 ## Additional information
