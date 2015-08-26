@@ -3,54 +3,74 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Calculator</title>
-    <!-- jQuery libraries -->
-    <link rel="stylesheet" type="text/css" href="lib/jquery-ui/css/custom-theme/jquery-ui-1.10.3.custom.min.css" />
+
     <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="lib/jquery-ui/jquery-ui-1.10.3.custom.min.js"></script>
-    <!-- End of jQuery libraries -->
-
-    <!-- Joose JavaScript Class framework -->
     <script type="text/javascript" src="lib/joose/joose.min.js"></script>
-    <!-- End of Joose framework -->
-
-    <!-- Utilities for dizmos -->
-    <script type="text/javascript" src="lib/dizmohelper/dizmo_helper.js"></script>
-    <!-- End of utilities -->
-
-
-    <!-- Your own stylesheet (do not remove!)-->
+    <script type="text/javascript"
+            src="lib/dizmohelper/dizmo_helper.js"></script>
     <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 <body>
-    <div id="front">
-        <div id="display"><span id="readout"></span></div>
-        <button id="clear"  data-type="dizmo-button" style="background-color: #3c3c3c; color: #DFDFDF;">C</button>
-        <button id="clearAll"  data-type="dizmo-button" style="background-color: #3c3c3c; color: #DFDFDF;">CA</button>
-        <button id="sign"  data-type="dizmo-button" style="background-color: #3c3c3c; color: #DFDFDF;"></button>
-        <button id="divide" class="operator" data-type="dizmo-button">:</button>
-        <button id="7" class="digit" value="7" data-type="dizmo-button">7</button>
-        <button id="8" class="digit" value="8" data-type="dizmo-button">8</button>
-        <button id="9" class="digit" value="9" data-type="dizmo-button">9</button>
-        <button id="multiply" class="operator" data-type="dizmo-button">x</button>
-        <button id="4" class="digit" value="4" data-type="dizmo-button">4</button>
-        <button id="5" class="digit" value="5" data-type="dizmo-button">5</button>
-        <button id="6" class="digit" value="6" data-type="dizmo-button">6</button>
-        <button id="subtract" class="operator" data-type="dizmo-button">-</button>
-        <button id="1" class="digit" value="1" data-type="dizmo-button">1</button>
-        <button id="2" class="digit" value="2" data-type="dizmo-button">2</button>
-        <button id="3" class="digit" value="3" data-type="dizmo-button">3</button>
-        <button id="add" class="operator" data-type="dizmo-button">+</button>
-        <button id="zero" class="digit" value="0" data-type="dizmo-button" style="width: 105px;">0</button>
-        <button id="point" class="digit" value="." data-type="dizmo-button">.</button>
-        <button id="equals" class="operator" data-type="dizmo-button">=</button> 
-    </div>
-    <div id="back">
-        <div class="done-btn-wrapper">
-            <button class="done-btn" data-type="dizmo-button">Done</button>
-        </div>
-    </div>
-
-    <!-- Your own JavaScript (do not remove!) -->
-    <script type="text/javascript" src="application.js"></script>
+<div id="front">
+    <div id="display"><span id="readout" class="no-dizmo-drag"></span></div>
+    <button id="clear"
+            class="no-dizmo-drag"
+            data-type="dizmo-button">C</button>
+    <button id="clear-all"
+            class="no-dizmo-drag"
+            data-type="dizmo-button">CA</button>
+    <button id="sign"
+            class="no-dizmo-drag"
+            data-type="dizmo-button">&PlusMinus;</button>
+    <button id="divide"
+            class="no-dizmo-drag operator"
+            data-type="dizmo-button">&divide;</button>
+    <button id="7"
+            class="digit no-dizmo-drag" value="7"
+            data-type="dizmo-button">7</button>
+    <button id="8"
+            class="digit no-dizmo-drag" value="8"
+            data-type="dizmo-button">8</button>
+    <button id="9"
+            class="digit no-dizmo-drag" value="9"
+            data-type="dizmo-button">9</button>
+    <button id="multiply"
+            class="no-dizmo-drag operator"
+            data-type="dizmo-button">&Cross;</button>
+    <button id="4"
+            class="digit no-dizmo-drag" value="4"
+            data-type="dizmo-button">4</button>
+    <button id="5"
+            class="digit no-dizmo-drag" value="5"
+            data-type="dizmo-button">5</button>
+    <button id="6"
+            class="digit no-dizmo-drag" value="6"
+            data-type="dizmo-button">6</button>
+    <button id="subtract"
+            class="no-dizmo-drag operator"
+            data-type="dizmo-button">&minus;</button>
+    <button id="1"
+            class="digit no-dizmo-drag" value="1"
+            data-type="dizmo-button">1</button>
+    <button id="2"
+            class="digit no-dizmo-drag" value="2"
+            data-type="dizmo-button">2</button>
+    <button id="3"
+            class="digit no-dizmo-drag" value="3"
+            data-type="dizmo-button">3</button>
+    <button id="add"
+            class="no-dizmo-drag operator"
+            data-type="dizmo-button">&plus;</button>
+    <button id="zero"
+            class="digit no-dizmo-drag" value="0"
+            data-type="dizmo-button">0</button>
+    <button id="point"
+            class="digit no-dizmo-drag" value="."
+            data-type="dizmo-button">&period;</button>
+    <button id="equals"
+            class="no-dizmo-drag operator"
+            data-type="dizmo-button">=</button>
+</div>
+<script type="text/javascript" src="application.js"></script>
 </body>
 </html>
