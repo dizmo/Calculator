@@ -10,6 +10,7 @@
 ## Screenshots
 
 ![Calculator dizmo](./Calculator.jpg)
+![Create a signaling system with Calculator, Value Range and All Hue](./DockedCalculator.png)
 
 ## Description
 
@@ -23,6 +24,8 @@ A classic calculator.
 Build classic calculator.
 
 ## Works well with
+
+Create your own signaling system when a calculation falls below or exceeds a threshold with Calculator, Value Range and All Hue.
 
 Dock the Calculator dizmo with
 
