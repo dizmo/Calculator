@@ -4,9 +4,9 @@
 
 1. Screenshots
 2. Description
-3. What is new in V0.17
+3. What is new in V0.18
 4. Works well with
-4. Additional information
+5. Additional information
 
 ## Screenshots
 
@@ -17,7 +17,7 @@
 
 A classic calculator.
 
-## What is new in V0.17
+## What is new in V0.18
 * Improve docking.
 
 ### V0.14
