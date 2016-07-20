@@ -5,6 +5,7 @@ function showFront() {
 }
 
 var events = {};
-jQuery(document).ready(function () {
+
+document.addEventListener('dizmoready', function() {
     window.MAIN = new Calculator.Main();
 });
