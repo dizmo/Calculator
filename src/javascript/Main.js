@@ -1,4 +1,55 @@
-//= require Dizmo
+Class("Calculator.Dizmo", {
+
+    my: {
+        methods: {
+            load: function (path, fallback) {
+                var value = dizmo.privateStorage.getProperty(path);
+                if (value === null) {
+                    return fallback;
+                } else if (value === '"null"') {
+                    return null; // no fallback!
+                } else {
+                    return value;
+                }
+            },
+
+            save: function (path, value) {
+                if (value === undefined) {
+                    dizmo.privateStorage.deleteProperty(path);
+                } else if (value === null) {
+                    dizmo.privateStorage.setProperty(path, '"null"');
+                } else {
+                    dizmo.privateStorage.setProperty(path, value);
+                }
+            },
+
+            publish: function (path, value) {
+                if (typeof value === 'undefined') {
+                    value = path;
+                    path = 'stdout';
+                }
+
+                dizmo.publicStorage.setProperty(path, value);
+            }
+        }
+    },
+
+    after: {
+        initialize: function () {
+            this.initEvents();
+        }
+    },
+
+    methods: {
+        initEvents: function () {
+            viewer.subscribeToAttribute('settings/displaymode', function (path, value) {
+                dizmo.setAttribute('state/framehidden', value === 'presentation');
+            });
+
+            dizmo.canDock(true);
+        }
+    }
+});
 
 Class('Calculator.Main', {
 
@@ -7,144 +58,173 @@ Class('Calculator.Main', {
             is: 'ro', init: function () {
                 return new Calculator.Dizmo();
             }
-        },
-        x: {
-            is: 'rw', init: 0
-        },
-        y: {
-            is: 'rw', init: 0
-        },
-        yFlag: {
-            is: 'rw', init: false
-        },
-        enterFlag: {
-            is: 'rw', init: false
-        },
-        opFlag: {
-            is: 'rw', init: false
-        },
-        operation: {
-            is: 'rw', init: null
         }
     },
 
     after: {
         initialize: function () {
             this.initEvents();
-            this.displayX();
         }
     },
 
     methods: {
         initEvents: function () {
+
+            // initial values if undefined
+            if (!dizmo.privateStorage.getProperty("state/opflag")) dizmo.privateStorage.setProperty("state/opflag",false);
+            if (!dizmo.privateStorage.getProperty("state/y")) dizmo.privateStorage.setProperty("state/y",0);
+            if (!dizmo.privateStorage.getProperty("state/x")) dizmo.privateStorage.setProperty("state/x",0);
+            if (!dizmo.privateStorage.getProperty("state/enterflag")) dizmo.privateStorage.setProperty("state/enterflag",false);
+            if (!dizmo.privateStorage.getProperty("state/yflag")) dizmo.privateStorage.setProperty("state/yflag",false);
+
+            var that=this;
+
+	    this.displayX(dizmo.privateStorage.getProperty("state/x"));
+
+            dizmo.privateStorage.subscribeToProperty("state/x",function(p,v,o){
+                // when x changes, update the display
+                that.displayX(x);
+            });
+
             var $operator = jQuery('.operator');
             $operator.css('background-color', '#3c3c3c');
             $operator.css('color', '#dfdfdf');
+
             $operator.click(function (ev) {
-                this.enterOp(jQuery(ev.target));
-            }.bind(this));
+                that.enterOp(jQuery(ev.target));
+            });
 
             jQuery('.digit').click(function (ev) {
-                this.enterDigit(jQuery(ev.target));
-            }.bind(this));
+                that.enterDigit(jQuery(ev.target));
+            });
             jQuery('#sign').click(function () {
-                this.doUnaryMinus();
-            }.bind(this));
+                that.doUnaryMinus();
+            });
             jQuery('#clear').click(function () {
-                this.clear();
-            }.bind(this));
+                that.clear();
+            });
             jQuery('#clear-all').click(function () {
-                this.clearAll();
-            }.bind(this));
+                that.clearAll();
+            });
         },
 
         highlightOp: function (style) {
+            var operation=dizmo.privateStorage.getProperty("state/operation");
+
             var $op = jQuery('.operator');
             $op.css('background-color', '#3c3c3c');
             $op.css('color', '#dfdfdf');
 
-            if (this.operation !== 'equals') {
-                jQuery('#' + this.operation).css(style||'color', '#8ea318');
+            if (operation !== 'equals') {
+                jQuery('#' + operation).css(style||'color', '#8ea318');
             }
         },
 
         clear: function () {
-            this.x = 0;
-            this.displayX();
+            dizmo.privateStorage.setProperty("state/x",0);
+            dizmo.privateStorage.setProperty("state/operation",null);
         },
 
         clearAll: function () {
-            this.x = 0;
-            this.y = 0;
-            this.yFlag = false;
-            this.enterFlag = false;
-            this.opFlag = false;
-            this.displayX();
+            dizmo.privateStorage.setProperty("state/opflag",false);
+            dizmo.privateStorage.setProperty("state/y",0);
+            dizmo.privateStorage.setProperty("state/x",0);
+            dizmo.privateStorage.setProperty("state/enterflag",false);
+            dizmo.privateStorage.setProperty("state/yflag",false);
+            dizmo.privateStorage.setProperty("state/operation",null);
         },
 
         enterDigit: function ($sender) {
-            this.highlightOp();
-            this.opFlag = false;
 
-            if (this.enterFlag) {
-                this.y = this.x;
-                this.x = 0;
-                this.enterFlag = false;
+            var x=dizmo.privateStorage.getProperty("state/x");
+            var y=dizmo.privateStorage.getProperty("state/y");
+            var enterFlag=dizmo.privateStorage.getProperty("state/enterflag");
+	    var opFlag;
+
+            this.highlightOp();
+            opFlag = false;
+
+            if (enterFlag) {
+                y = x;
+                x = 0;
+                enterFlag = false;
             }
 
-            if (this.x.toString() !== '0.' && this.x === 0) {
-                this.x = '';
+            if (x.toString() !== '0.' && x === 0) {
+                x = '';
             }
 
             var digit;
             if ($sender.attr('id') === 'point') {
-                if (this.x && !this.x.match(/\./) || !this.x) {
+                if (x && !x.match(/\./) || !x) {
                     digit = '.';
                 }
             } else {
                 digit = $sender.val();
             }
 
-            if (digit) this.x = this.x + digit;
-            if (this.x === '.') this.x = '0.';
+            if (digit) x = x + digit;
+            if (x === '.') x = '0.';
 
-            this.displayX();
+            dizmo.privateStorage.setProperty("state/y",y);
+            dizmo.privateStorage.setProperty("state/x",x);
+            dizmo.privateStorage.setProperty("state/enterflag",enterFlag);
+            dizmo.privateStorage.setProperty("state/opflag",opFlag);
+
         },
 
         enterOp: function ($sender) {
-            if (this.opFlag) {
-                this.operation = $sender.attr('id');
+
+            var x=dizmo.privateStorage.getProperty("state/x");
+            var opFlag=dizmo.privateStorage.getProperty("state/opflag");
+            var y=dizmo.privateStorage.getProperty("state/y");
+            var operation=dizmo.privateStorage.getProperty("state/operation");
+            var enterFlag=dizmo.privateStorage.getProperty("state/enterflag");
+            var yFlag=dizmo.privateStorage.getProperty("state/yflag");
+
+            if (opFlag) {
+                operation = $sender.attr('id');
+                dizmo.privateStorage.setProperty("state/operation",operation);
+
                 this.highlightOp('background-color');
             } else {
-                this.opFlag = true;
-                this.x = parseFloat(this.x);
-                this.y = parseFloat(this.y);
+                opFlag = true;
+                x = parseFloat(x);
+                y = parseFloat(y);
 
-                if (this.yFlag) switch (this.operation) {
+                if (yFlag) switch (operation) {
                     case 'add':
-                        this.x = this.y + this.x;
+                        x = y + x;
                         break;
                     case 'subtract':
-                        this.x = this.y - this.x;
+                        x = y - x;
                         break;
                     case 'multiply':
-                        this.x = this.y * this.x;
+                        x = y * x;
                         break;
                     case 'divide':
-                        this.x = this.y / this.x;
+                        x = y / x;
                         break;
                 }
 
-                this.y = this.x;
-                this.yFlag = true;
+                y = x;
+                yFlag = true;
 
-                this.operation = $sender.attr('id');
+                operation = $sender.attr('id');
+                dizmo.privateStorage.setProperty("state/operation",operation);
+
                 this.highlightOp('background-color');
-                this.enterFlag = true;
+                enterFlag = true;
 
-                this.cleanX();
-                this.displayX();
+                x=this.cleanX(x);
             }
+
+            dizmo.privateStorage.setProperty("state/opflag",opFlag);
+            dizmo.privateStorage.setProperty("state/y",y);
+            dizmo.privateStorage.setProperty("state/enterflag",enterFlag);
+            dizmo.privateStorage.setProperty("state/yflag",yFlag);
+            dizmo.privateStorage.setProperty("state/x",x);
+
         },
 
         checkSize: function () {
@@ -165,29 +245,32 @@ Class('Calculator.Main', {
             }
         },
 
-        cleanX: function () {
-            this.x = this.x.toFixed(10);
-            while (this.x.match(/\..*0$/)) {
-                this.x = this.x.replace(/0$/, '');
+        cleanX: function (t) {
+            t = t.toFixed(10);
+            while (t.match(/\..*0$/)) {
+                t = t.replace(/0$/, '');
             }
-            if (this.x.match(/\.$/)) {
-                this.x = this.x.replace(/\.$/, '');
+            if (t.match(/\.$/)) {
+                t = t.replace(/\.$/, '');
             }
+            return t;
         },
 
-        displayX: function () {
-            jQuery('#readout').html(this.x);
-            this.dizmo.my.publish(this.x);
+        displayX: function (x) {
+            jQuery('#readout').html(x);
+            this.dizmo.my.publish(x);
 
-            if (this.x === 'NaN') this.x = 0;
-            if (this.x === 'Infinity') this.x = 0;
+            if (x === 'NaN') x = 0;
+            if (x === 'Infinity') x = 0;
+            dizmo.privateStorage.setProperty("state/x",x);
             this.checkSize();
         },
 
         doUnaryMinus: function () {
-            if (this.x === 0) return;
-            this.x = -this.x;
-            this.displayX();
+            var x=dizmo.privateStorage.getProperty("state/x");
+            if (x === 0) return;
+            x = -x;
+            dizmo.privateStorage.setProperty("state/x",x);
         }
     }
 });
