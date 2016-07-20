@@ -79,11 +79,12 @@ Class('Calculator.Main', {
 
             var that=this;
 
+	    // initialize display with last saved state
 	    this.displayX(dizmo.privateStorage.getProperty("state/x"));
 
-            dizmo.privateStorage.subscribeToProperty("state/x",function(p,v,o){
+            dizmo.privateStorage.subscribeToProperty("state/x",function(path,new_val,old_val){
                 // when x changes, update the display
-                that.displayX(x);
+                that.displayX(new_val);
             });
 
             var $operator = jQuery('.operator');
