@@ -8,7 +8,9 @@
 
 A classic calculator.
 
-## What is new in V0.18
+## What is new in V0.2
+Calculator can be used over dizmoLive.
+### V0.18
 * Improve docking.
 
 ### V0.14
