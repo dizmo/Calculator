@@ -6,23 +6,10 @@
 
 ## Description
 
-A classic calculator.
+A classic calculator that allows you to perform addition, substraction, multiplication, and division operations.
 
 ## What is new in V1.0
 Minor bugfixes and enhancements.
-
-### V0.2
-Calculator can be used over dizmoLive.
-
-### V0.18
-* Improve docking.
-
-### V0.14
-* Add help.
-* Bugfixes.
-
-### V0.1
-Build classic calculator.
 
 ## Works well with
 
