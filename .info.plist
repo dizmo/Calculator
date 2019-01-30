@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>AllowResize</key>
+        <false/>
+        <key>ApiVersion</key>
+        <string>1.3</string>
+        <key>BundleDisplayName</key>
+        <string/>
+        <key>BundleIdentifier</key>
+        <string/>
+        <key>BundleName</key>
+        <string/>
+        <key>BundleShortVersionString</key>
+        <string/>
+        <key>BundleVersion</key>
+        <string/>
+        <key>Category</key>
+        <string/>
+        <key>ChangeLog</key>
+        <string>-</string>
+        <key>Description</key>
+        <string/>
+        <key>ElementsVersion</key>
+        <string>1.0</string>
+        <key>ForceUpdate</key>
+        <false/>
+        <key>Height</key>
+        <integer>0</integer>
+        <key>HiddenDizmo</key>
+        <false/>
+        <key>MainHTML</key>
+        <string>index.html</string>
+        <key>MinSpaceVersion</key>
+        <string>0.0.0</string>
+        <key>Tags</key>
+        <array/>
+        <key>TitleEditable</key>
+        <true/>
+        <key>Width</key>
+        <integer>0</integer>
+    </dict>
+</plist>
