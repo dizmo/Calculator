@@ -3,8 +3,9 @@ let pkg = require('../../package.js'),
 
 let assert = require('assert'),
     request = require('request');
-let gulp = require('gulp'),
-    gulp_util = require('gulp-util');
+let ansi_colors = require('ansi-colors'),
+    fancy_log = require('fancy-log'),
+    gulp = require('gulp');
 
 gulp.task('upload:send', function (done) {
     let host = process.env.DZM_STORE_HOST,
@@ -26,7 +27,7 @@ gulp.task('upload:send', function (done) {
 
     if (!argv.host) {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: DZM_STORE_HOST, package.json:dizmo.store.host or ' +
                 '`--host` required!'
             ));
@@ -35,7 +36,7 @@ gulp.task('upload:send', function (done) {
     }
     if (!argv.user && argv.user !== '') {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: DZM_STORE_USER, package.json:dizmo.store.user or ' +
                 '`--user` required!'
             ));
@@ -44,7 +45,7 @@ gulp.task('upload:send', function (done) {
     }
     if (!argv.pass && argv.pass !== '') {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: DZM_STORE_PASS, package.json:dizmo.store.pass or ' +
                 '`--pass` required!'
             ));
@@ -57,7 +58,7 @@ gulp.task('upload:send', function (done) {
         !pkg.dizmo.settings['category'])
     {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: package.json:dizmo.settings.category required, ' +
                 'e.g. "tools"!'
             ));
@@ -114,7 +115,7 @@ gulp.task('upload:send', function (done) {
                 }, function (err, res) {
                     if (!err && res.statusCode === 201) {
                         setTimeout(function () {
-                            gulp_util.log(gulp_util.colors.green.bold(
+                            fancy_log(ansi_colors.green.bold(
                                 'Upload: transmission to {0} succeeded.'
                                     .replace('{0}', argv.host)
                             ));
@@ -143,7 +144,7 @@ gulp.task('upload:send', function (done) {
                 }, function (err, res) {
                     if (!err && res.statusCode === 200) {
                         setTimeout(function () {
-                            gulp_util.log(gulp_util.colors.green.bold(
+                            fancy_log(ansi_colors.green.bold(
                                 'Upload: transmission to {0} succeeded.'
                                     .replace('{0}', argv.host)
                             ));
@@ -172,7 +173,7 @@ gulp.task('upload:send', function (done) {
                 }, function (err, res) {
                     if (!err && res.statusCode === 200) {
                         setTimeout(function () {
-                            gulp_util.log(gulp_util.colors.green.bold(
+                            fancy_log(ansi_colors.green.bold(
                                 'Upload: publication of {0} succeeded.'
                                     .replace('{0}', dzm_name)
                             ));
@@ -187,7 +188,7 @@ gulp.task('upload:send', function (done) {
 
     let on_error_login = function () {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: sign-in to {0} failed!'.replace('{0}', argv.host)
             ));
         }, 0);
@@ -195,7 +196,7 @@ gulp.task('upload:send', function (done) {
     };
     let on_error_upload = function () {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: transmission to {0} failed!'
                     .replace('{0}', argv.host)
             ));
@@ -204,7 +205,7 @@ gulp.task('upload:send', function (done) {
     };
     let on_error_publish = function () {
         setTimeout(function () {
-            gulp_util.log(gulp_util.colors.yellow.bold(
+            fancy_log(ansi_colors.yellow.bold(
                 'Upload: publication of {0} failed!'
                     .replace('{0}', dzm_name)
             ));
@@ -214,7 +215,7 @@ gulp.task('upload:send', function (done) {
     let on_error = function (err, res, body) {
         if (err) {
             setTimeout(function () {
-                gulp_util.log(gulp_util.colors.red.bold(
+                fancy_log(ansi_colors.red.bold(
                     err, res.toJSON()
                 ));
             }, 0);
@@ -223,28 +224,28 @@ gulp.task('upload:send', function (done) {
                 let json = JSON.parse(body);
                 if (json.errormessage && json.errornumber) {
                     setTimeout(function () {
-                        gulp_util.log(gulp_util.colors.yellow.bold('{0} [{1}]'
+                        fancy_log(ansi_colors.yellow.bold('{0} [{1}]'
                             .replace('{0}', json.errormessage)
                             .replace('{1}', json.errornumber)
                         ));
                     }, 0);
                 } else {
                     setTimeout(function () {
-                        gulp_util.log(gulp_util.colors.yellow.bold(
+                        fancy_log(ansi_colors.yellow.bold(
                             JSON.stringify(json, null, 4)
                         ));
                     }, 0);
                 }
             } catch (ex) {
                 setTimeout(function () {
-                    gulp_util.log(gulp_util.colors.red.bold(
+                    fancy_log(ansi_colors.red.bold(
                         body
                     ));
                 }, 0);
             }
         } else {
             setTimeout(function () {
-                gulp_util.log(gulp_util.colors.red.bold(
+                fancy_log(ansi_colors.red.bold(
                     res.toJSON()
                 ));
             }, 0);

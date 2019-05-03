@@ -1,4 +1,4 @@
-let gulp = require('gulp');
+const gulp = require('gulp');
 
 require('./gulp/tasks/lint');
 require('./gulp/tasks/clean');

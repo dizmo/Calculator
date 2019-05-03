@@ -6,19 +6,9 @@ let gulp = require('gulp'),
     gulp_rename = require('gulp-rename');
 let lodash = require('lodash');
 
-lodash.mixin({
-    deep: function (obj, mapper) {
-        return mapper(lodash.mapValues(obj, function (v) {
-            return lodash.isPlainObject(v) ? lodash.deep(v, mapper) : v;
-        }));
-    },
-});
-
 gulp.task('properties', function () {
-    let settings = lodash.deep(pkg.dizmo.settings, function (s) {
-        return lodash.mapKeys(s, function (v, k) {
-            return lodash.upperFirst(lodash.camelCase(k));
-        });
+    let settings = lodash.mapKeys(pkg.dizmo.settings, function (v, k) {
+        return lodash.upperFirst(lodash.camelCase(k));
     });
     if (fs.existsSync('.info.plist')) {
         return gulp.src('.info.plist')

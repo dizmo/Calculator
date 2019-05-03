@@ -18,7 +18,7 @@ function filter(object) {
     return object;
 }
 
-function get_config (path_to, cfg_json) {
+function get_config(path_to, cfg_json) {
     let cfg_path = path.join(path_to, '.generator-dizmo', 'config.json');
     try {
         cfg_json = lodash.merge(

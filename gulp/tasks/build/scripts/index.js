@@ -10,7 +10,26 @@ let babelify = require('babelify'),
     source = require('vinyl-source-stream'),
     through = require('through2');
 
-let gulp_obfuscator = function (options) {
+function ensure(package, callback) {
+    require('fs').access(
+        './node_modules/' + package, function (error)
+    {
+        if (error) {
+            let npm_install = require('child_process').spawn('npm', [
+                'install', package
+            ], {
+                shell: true, stdio: 'ignore'
+            });
+            npm_install.on('exit', function () {
+                callback(require(package));
+            });
+        } else {
+            callback(require(package));
+        }
+    });
+}
+
+function gulp_obfuscator(options) {
     return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
             return callback(null, file);
@@ -18,13 +37,15 @@ let gulp_obfuscator = function (options) {
         if (file.isStream()) {
             return callback(new Error('streaming not supported', null));
         }
-        let result = require('javascript-obfuscator').obfuscate(
-            file.contents.toString(encoding), options);
-        file.contents = Buffer.from(
-            result.getObfuscatedCode(), encoding);
-        callback(null, file);
+        ensure('javascript-obfuscator', function (obfuscator) {
+            let result = obfuscator.obfuscate(
+                file.contents.toString(encoding), options);
+            file.contents = Buffer.from(
+                result.getObfuscatedCode(), encoding);
+            callback(null, file);
+        });
     });
-};
+}
 
 gulp.task('scripts', function () {
     let cli_min = require('yargs')
@@ -32,8 +53,10 @@ gulp.task('scripts', function () {
         .argv.minify;
 
     let sourcemaps = false,
-        obfuscate = cli_min === true,
-        uglify = cli_min === true;
+        obfuscate = false,
+        uglify = cli_min === true
+            ? { keep_fnames: true }
+            : false;
 
     if (pkg.dizmo && pkg.dizmo.build) {
         let cfg_min = pkg.dizmo.build.minify;
@@ -74,7 +97,7 @@ gulp.task('scripts', function () {
     }
 
     let browserified = browserify({basedir: '.', entries: [
-        'node_modules/babel-polyfill/lib/index.js', 'src/index.js'
+        'node_modules/@babel/polyfill/dist/polyfill.js', 'src/index.js'
     ]}).transform(babelify);
 
     let stream = browserified.bundle()
@@ -86,12 +109,12 @@ gulp.task('scripts', function () {
     }
     if (argv.obfuscate || argv.obfuscate === undefined) {
         stream = stream.pipe(gulp_obfuscator.apply(
-            this, extend({}, argv.obfuscate)
+            this, [extend({}, argv.obfuscate)]
         ));
     }
     if (argv.uglify || argv.uglify === undefined) {
         stream = stream.pipe(gulp_uglify.apply(
-            this, extend({}, argv.uglify)
+            this, [extend({}, argv.uglify)]
         ));
     }
     if (argv.sourcemaps) {

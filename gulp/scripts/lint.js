@@ -14,7 +14,7 @@ fs.access('./node_modules', function (error) {
         let Spinner = require('../miscellanea/cli-spinner').Spinner,
             spinner = new Spinner('%s installing dependencies: .. ');
         let npm_install = child_process.spawn('npm', [
-            'install'
+            'install', '--no-optional'
         ], {
             shell: true, stdio: 'ignore'
         });

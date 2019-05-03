@@ -1,5 +1,9 @@
 {
   "@dizmo/generator-dizmo": {
-    "domain": "com.dizmo"
+    "domain": "com.dizmo",
+    "promptValues": {
+      "personName": "Grace DizmoGen Converter",
+      "personEmail": "support@dizmo.com"
+    }
   }
 }

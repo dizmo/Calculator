@@ -1,23 +1,42 @@
 let pkg = require('../../../package.js'),
     path = require('path');
 let gulp = require('gulp'),
-    gulp_util = require('gulp-util'),
     gulp_uglify = require('gulp-uglify'),
     gulp_sourcemaps = require('gulp-sourcemaps');
 let babelify = require('babelify'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify'),
     extend = require('xtend'),
+    fancy_log = require('fancy-log'),
     source = require('vinyl-source-stream'),
     through = require('through2'),
     watchify = require('watchify');
 
 let watched = watchify(browserify({basedir: '.', entries: [
-        'node_modules/babel-polyfill/lib/index.js', 'src/index.js'
+        'node_modules/@babel/polyfill/dist/polyfill.js', 'src/index.js'
     ], cache: {}, packageCache: {}, debug: false
 }).transform(babelify));
 
-let gulp_obfuscator = function (options) {
+function ensure(package, callback) {
+    require('fs').access(
+        './node_modules/' + package, function (error)
+    {
+        if (error) {
+            let npm_install = require('child_process').spawn('npm', [
+                'install', package
+            ], {
+                shell: true, stdio: 'ignore'
+            });
+            npm_install.on('exit', function () {
+                callback(require(package));
+            });
+        } else {
+            callback(require(package));
+        }
+    });
+}
+
+function gulp_obfuscator(options) {
     return through.obj(function (file, encoding, callback) {
         if (file.isNull()) {
             return callback(null, file);
@@ -25,11 +44,13 @@ let gulp_obfuscator = function (options) {
         if (file.isStream()) {
             return callback(new Error('streaming not supported', null));
         }
-        let result = require('javascript-obfuscator').obfuscate(
-            file.contents.toString(encoding), options);
-        file.contents = Buffer.from(
-            result.getObfuscatedCode(), encoding);
-        callback(null, file);
+        ensure('javascript-obfuscator', function (obfuscator) {
+            let result = obfuscator.obfuscate(
+                file.contents.toString(encoding), options);
+            file.contents = Buffer.from(
+                result.getObfuscatedCode(), encoding);
+            callback(null, file);
+        });
     });
 };
 
@@ -39,8 +60,10 @@ let on_watch = function () {
         .argv.minify;
 
     let sourcemaps = false,
-        obfuscate = cli_min === true,
-        uglify = cli_min === true;
+        obfuscate = false,
+        uglify = cli_min === true
+            ? { keep_fnames: true }
+            : false;
 
     if (pkg.dizmo && pkg.dizmo.build) {
         let cfg_min = pkg.dizmo.build.minify;
@@ -89,12 +112,12 @@ let on_watch = function () {
     }
     if (argv.obfuscate) {
         stream = stream.pipe(gulp_obfuscator.apply(
-            this, extend({}, argv.obfuscate)
+            this, [extend({}, argv.obfuscate)]
         ));
     }
     if (argv.uglify) {
         stream = stream.pipe(gulp_uglify.apply(
-            this, extend({}, argv.uglify)
+            this, [extend({}, argv.uglify)]
         ));
     }
     if (argv.sourcemaps) {
@@ -109,5 +132,5 @@ let on_watch = function () {
 };
 
 watched.on('update', on_watch);
-watched.on('log', gulp_util.log);
+watched.on('log', fancy_log);
 gulp.task('scripts:watch', on_watch);
