@@ -1,4 +1,4 @@
-/*global */
+/*global jQuery */
 function initEvents0() {
   viewer.subscribeToAttribute('settings/displaymode', function(path, value) {
     dizmo.setAttribute('state/framehidden', value === 'presentation');

@@ -1,7 +1,7 @@
 {
   "name": "calculator",
   "description": "A classic calculator that allows you to perform addition, substraction, multiplication, and division operations.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "person": {
     "name": "Grace DizmoGen Converter",
     "email": "support@dizmo.com"
@@ -66,7 +66,6 @@
     "gulp-zip": "^4.2.0",
     "javascript-obfuscator": "^0.17.0",
     "lodash": "^4.17.11",
-    "pump": "^3.0.0",
     "rimraf": "^2.6.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
